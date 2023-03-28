@@ -85,7 +85,7 @@ inline void snrt_alloc_init() {
         snrt_l1_allocator()->next = snrt_l1_allocator()->base;
         // Initialize L3 allocator
         extern uint32_t _edram;
-        snrt_l3_allocator()->base = ALIGN_UP((uint32_t)_edram, MIN_CHUNK_SIZE);
+        snrt_l3_allocator()->base = ALIGN_UP((uint32_t)&_edram, MIN_CHUNK_SIZE);
         snrt_l3_allocator()->size = 0;
         snrt_l3_allocator()->next = snrt_l3_allocator()->base;
     }

@@ -23,27 +23,14 @@ INCDIRS += $(RUNTIME_DIR)/src
 INCDIRS += $(RUNTIME_DIR)/platform
 INCDIRS += $(SNRT_DIR)/api
 INCDIRS += $(SNRT_DIR)/src
+INCDIRS += $(SNRT_DIR)/vendor/riscv-opcodes
 
-# Linker flags
-LDFLAGS += -nostartfiles
-LDFLAGS += -lm
-LDFLAGS += -lgcc
 # Linker script
 LDFLAGS += -L$(abspath $(RUNTIME_DIR))
 LDFLAGS += -T$(abspath $(SNRT_DIR)/base.ld)
 # Link snRuntime library
 LDFLAGS += -L$(abspath $(RUNTIME_DIR)/build/)
 LDFLAGS += -lsnRuntime
-
-# Objcopy flags
-OBJCOPY_FLAGS  = -O binary
-OBJCOPY_FLAGS += --remove-section=.comment
-OBJCOPY_FLAGS += --remove-section=.riscv.attributes
-OBJCOPY_FLAGS += --remove-section=.debug_info
-OBJCOPY_FLAGS += --remove-section=.debug_abbrev
-OBJCOPY_FLAGS += --remove-section=.debug_line
-OBJCOPY_FLAGS += --remove-section=.debug_str
-OBJCOPY_FLAGS += --remove-section=.debug_aranges
 
 ###########
 # Outputs #
@@ -53,7 +40,7 @@ ELF         = $(abspath $(addprefix $(BUILDDIR)/,$(addsuffix .elf,$(APP))))
 DEP         = $(abspath $(addprefix $(BUILDDIR)/,$(addsuffix .d,$(APP))))
 DUMP        = $(abspath $(addprefix $(BUILDDIR)/,$(addsuffix .dump,$(APP))))
 DWARF       = $(abspath $(addprefix $(BUILDDIR)/,$(addsuffix .dwarf,$(APP))))
-ALL_OUTPUTS = $(ELF) $(DEP) $(BIN) $(DUMP) $(DWARF)
+ALL_OUTPUTS = $(ELF) $(DEP) $(DUMP) $(DWARF)
 
 #########
 # Rules #

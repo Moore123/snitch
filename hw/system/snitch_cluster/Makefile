@@ -9,8 +9,8 @@
 # Makefile invocation #
 #######################
 
-DEBUG        ?= OFF # ON to turn on debugging symbols
-CFG_OVERRIDE ?=     # Override default config file
+DEBUG        ?= OFF  # ON to turn on debugging symbols
+CFG_OVERRIDE ?=      # Override default config file
 
 .DEFAULT_GOAL := help
 .PHONY: all clean
@@ -31,7 +31,7 @@ include $(ROOT)/util/Makefrag
 # Programs #
 ############
 
-REGGEN          ?= ${ROOT}/util/regtool.py
+REGGEN          ?= $(shell $(BENDER) path register_interface)/vendor/lowrisc_opentitan/util/regtool.py
 CLUSTER_GEN     ?= $(ROOT)/util/clustergen.py
 CLUSTER_GEN_SRC ?= $(wildcard $(ROOT)/util/clustergen/*.py)
 
@@ -143,12 +143,14 @@ PLATFORM_HEADERS = $(addprefix $(PLATFORM_HEADERS_DIR)/,$(CLUSTER_GEN_HEADERS) $
 
 sw: $(PLATFORM_HEADERS)
 	$(MAKE) -C sw/
+	$(MAKE) -C banshee/ TARGET=all
 
 clean-headers:
 	rm -f $(PLATFORM_HEADERS)
 
 clean-sw: clean-headers
 	$(MAKE) -C sw/ TARGET=clean
+	$(MAKE) -C banshee/ TARGET=clean
 
 # CLUSTERGEN headers
 $(addprefix $(PLATFORM_HEADERS_DIR)/,$(CLUSTER_GEN_HEADERS)): %.h: $(CFG) $(CLUSTER_GEN_PREREQ) %.h.tpl

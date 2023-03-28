@@ -35,6 +35,7 @@ before_script:
   ${VERIBLE_FMT} --version
 
 stages:
+- build-sw
 - verify-snitch-ips
 - linux_prepare
 - build_fpga
@@ -168,3 +169,26 @@ ip-tests-vsim:
   - for file in $FILES; do echo "# Run $file"; eval "$file"  > vsim-$IP.log; done
   - grep -n "Errors" vsim-$IP.log
   - grep -n "Errors[:] 0" vsim-$IP.log
+
+########################
+# Snitch cluster tests #
+########################
+
+# Build Snitch cluster software
+snitch-cluster-sw:
+  stage: build-sw
+  script:
+    - cd hw/system/snitch_cluster
+    - make sw
+  artifacts:
+    paths:
+      - hw/system/snitch_cluster/sw/tests/build/*.elf
+
+# Run software tests on the Snitch cluster using Questasim
+snitch-cluster-vsim:
+  stage: verify-snitch-ips
+  needs: ["snitch-cluster-sw"]
+  script:
+    - cd hw/system/snitch_cluster
+    - make bin/snitch_cluster.vsim
+    - ./run-tests sw/tests/passing-apps.list --simulator vsim

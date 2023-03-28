@@ -4,9 +4,7 @@
 #
 # Luca Colagrande <colluca@iis.ee.ethz.ch>
 
-# Add user applications to APPS variable
-APPS  = apps/nop
-APPS += apps/blas/axpy
+APPS := $(shell cat apps.list)
 
 TARGET ?= all
 

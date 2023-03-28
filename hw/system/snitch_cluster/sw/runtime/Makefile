@@ -20,6 +20,7 @@ SNRT_DIR    = $(abspath $(SW_DIR)/../../../../sw/snRuntime)
 # Dependencies
 INCDIRS += $(SNRT_DIR)/src
 INCDIRS += $(SNRT_DIR)/api
+INCDIRS += $(SNRT_DIR)/vendor/riscv-opcodes
 INCDIRS += $(RUNTIME_DIR)/platform
 SRCS += $(SRC_DIR)/snitch_cluster_start.S
 SRCS += $(SRC_DIR)/snrt.c
