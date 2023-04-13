@@ -6,7 +6,7 @@
 
 Banshee can be installed on your system using cargo as follows:
 
-    cargo instal --path . -f
+    cargo install --path . -f
     banshee --help
 
 To allow the logging levels `debug` and `trace` make sure to install Banshee in debug mode:
